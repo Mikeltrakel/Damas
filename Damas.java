@@ -1,53 +1,81 @@
+//Parking de cursores [     ]
+// Lo siguiente por hacer es el movimento de las fichas.
+// Una ficha se mueve de base en diagonal, si son fichas del jugardor 1 hacia abajo a la izquierda o abajo a la derecha
+// si son del jugador dos, se mueven hacia arriba izq o arriba derecha.
+// desarrolla una funcion que tenga como parametros de entrada:
+//  1) El turno en el que se encuentra (ya sea turno 1,2,3,4... o turno de jugador blanco, turno de jugar negro (te lo dejo a tu decision))
+//  2) posicion de la ficha que se quiere mover (ej; la 3,6 o la 1,1 o la 0,4)
+//  3) direccion en la que se quiere mover (izq o derecha (implementacion a tu gusto tmb))
+// Esta funcion deberá realizar el movimiento de la ficha en el tablero, hacer la accion de comer una ficha (esto dejalo para el final)
+// Despues de llamar a esta funcion se deberia imprimir el tablero
+// Tener en cuenta que más tarde habrá fichas que sean capaces de moverse libremente en todos los ejes (como si fuera la dama del ajedrez) pero dejalo tambien para el final
+// SUERTE XOXO ;)
+
 public class Damas {
+    static int ROW = 8;
+    static int COL = 8;
+    static int EMPTYESPACE = 0;
+    static int BLACKINITIALROWS = 3;
+    static int BLACKTOKEN = 1;
+    static int WHITEINITIALROWS = ROW - BLACKINITIALROWS - 1;
+    static int WHITETOKEN = 2;
+
+
     public static void main(String[]args){
 
-
-
-        char[][] blancas = {
-            {'O', 'O', 'O', 'O', 'O',},
-            {'O', 'O', 'O', 'O', 'O',},
-            {'O', 'O', 'O', 'O', 'O',},
-            {'O', 'O', 'O', 'O', 'O',},
-        };
-
-        char[][] negras = {
-            {'Ø', 'Ø', 'Ø', 'Ø', 'Ø',},
-            {'Ø', 'Ø', 'Ø', 'Ø', 'Ø',},
-            {'Ø', 'Ø', 'Ø', 'Ø', 'Ø',},
-            {'Ø', 'Ø', 'Ø', 'Ø', 'Ø',},
-        };
-
-        char[][] tabla = {
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',},
-            {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',},
-        };
+        int[][] tabla = startTable();
+        printTable(tabla);
 
     }
 
-    static void procesador (char[][] array2d) {
+    private static int[][] startTable() {
 
-        System.out.println(" "+array2d [0][0] + " | "+array2d[0][1] + " | " + array2d [0][2] + " | "+array2d [0][3] + " | "+array2d[0][4] + " | " + array2d [0][5] + " | "+array2d [0][6] + " | "+array2d[0][7] + " ");
-        System.out.println("--- --- --- --- --- --- --- ---");
-        System.out.println(" "+array2d [1][0] + " | "+array2d[1][1] + " | " + array2d [1][2] + " | "+array2d [1][3] + " | "+array2d[1][4] + " | " + array2d [1][5] + " | "+array2d [1][6] + " | "+array2d[1][7] + " ");
-        System.out.println("--- --- --- --- --- --- --- ---");
-        System.out.println(" "+array2d [2][0] + " | "+array2d[2][1] + " | " + array2d [2][2] + " | "+array2d [2][3] + " | "+array2d[2][4] + " | " + array2d [2][5] + " | "+array2d [2][6] + " | "+array2d[2][7] + " ");
-        System.out.println("--- --- --- --- --- --- --- ---");
-        System.out.println(" "+array2d [3][0] + " | "+array2d[3][1] + " | " + array2d [3][2] + " | "+array2d [3][3] + " | "+array2d[3][4] + " | " + array2d [3][5] + " | "+array2d [3][6] + " | "+array2d[3][7] + " ");
-        System.out.println("--- --- --- --- --- --- --- ---");
-        System.out.println(" "+array2d [4][0] + " | "+array2d[4][1] + " | " + array2d [4][2] + " | "+array2d [4][3] + " | "+array2d[4][4] + " | " + array2d [4][5] + " | "+array2d [4][6] + " | "+array2d[4][7] + " ");
-        System.out.println("--- --- --- --- --- --- --- ---");
-        System.out.println(" "+array2d [5][0] + " | "+array2d[5][1] + " | " + array2d [5][2] + " | "+array2d [5][3] + " | "+array2d[5][4] + " | " + array2d [5][5] + " | "+array2d [5][6] + " | "+array2d[5][7] + " ");
-        System.out.println("--- --- --- --- --- --- --- ---");    
-        System.out.println(" "+array2d [6][0] + " | "+array2d[6][1] + " | " + array2d [6][2] + " | "+array2d [6][3] + " | "+array2d[6][4] + " | " + array2d [6][5] + " | "+array2d [6][6] + " | "+array2d[6][7] + " ");
-        System.out.println("--- --- --- --- --- --- --- ---");
-        System.out.println(" "+array2d [7][0] + " | "+array2d[7][1] + " | " + array2d [7][2] + " | "+array2d [7][3] + " | "+array2d[7][4] + " | " + array2d [7][5] + " | "+array2d [7][6] + " | "+array2d[7][7] + " ");
+        int[][] board = new int[ROW][COL];
 
+        for (int actualRow = 0; actualRow < ROW; actualRow++) {
+            for (int actualCol = 0; actualCol < COL; actualCol++) {
+                if (actualRow < BLACKINITIALROWS || actualRow > WHITEINITIALROWS){
+                    if (actualRow%2==1&&actualCol%2==0 || actualRow%2==0&&actualCol%2==1) {
+                        if(actualRow < BLACKINITIALROWS){
+                            board[actualRow][actualCol]=BLACKTOKEN;
+                        }
+                        else {
+                            board[actualRow][actualCol]=WHITETOKEN;
+                        }
+                    }                  
+                    else{ 
+                        board[actualRow][actualCol]=EMPTYESPACE;
+                    }
+                }             
+            }       
+        }
+        return board;
+        
     }
-    
+
+    private static void printTable (int[][] board) {
+        for (int actualRow = 0; actualRow <= ROW; actualRow++) {    
+            for (int i = 0; i < ROW; i++) {
+                System.out.print(" ---");
+            }
+            if(actualRow<ROW){
+                System.out.println();
+                System.out.print("| ");
+                for (int actualCol = 0; actualCol < COL; actualCol++) {
+                    if (board[actualRow][actualCol] == EMPTYESPACE) {
+                        System.out.print("  | ");
+                    }
+                    if (board[actualRow][actualCol] == WHITETOKEN) {
+                        System.out.print(WHITETOKEN + " | ");
+                    }
+                    if (board[actualRow][actualCol] == BLACKTOKEN) {
+                        System.out.print(BLACKTOKEN + " | ");
+                    }
+                }
+            }                
+            System.out.println();
+        }
+                  
+    }
+
 }
